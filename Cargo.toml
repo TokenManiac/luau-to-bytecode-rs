@@ -2,6 +2,11 @@
 name = "luau-to-bytecode"
 version = "0.1.0"
 edition = "2024"
+build = "build.rs"
+
+[lib]
+name = "luau_to_bytecode"
+path = "src/lib.rs"
 
 [build-dependencies]
 luau0-src = "0.17"
