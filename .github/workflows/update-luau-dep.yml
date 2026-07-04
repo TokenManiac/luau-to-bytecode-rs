@@ -9,8 +9,8 @@ permissions:
   pull-requests: write
 
 jobs:
-  update-luau0-sys:
-    name: Update luau0-sys dependency
+  update-luau0-src:
+    name: Update luau0-src dependency
     runs-on: ubuntu-latest
 
     steps:
@@ -24,10 +24,10 @@ jobs:
         run: cargo install cargo-edit --locked
 
       - name: Upgrade luau0-sys in Cargo.toml
-        run: cargo upgrade luau0-sys
+        run: cargo upgrade luau0-src
 
       - name: Update lockfile
-        run: cargo update -p luau0-sys
+        run: cargo update -p luau0-src
 
       - name: Check that project still builds
         run: cargo check --locked
@@ -35,18 +35,18 @@ jobs:
       - name: Create pull request
         uses: peter-evans/create-pull-request@v8
         with:
-          branch: chore/update-luau0-sys
+          branch: chore/update-luau0-src
           delete-branch: true
-          title: "chore: update luau0-sys"
-          commit-message: "chore: update luau0-sys"
+          title: "chore: update luau0-src"
+          commit-message: "chore: update luau0-src"
           body: |
-            Automated `luau0-sys` dependency update.
+            Automated `luau0-src` dependency update.
 
             This runs:
 
             ```bash
-            cargo upgrade luau0-sys
-            cargo update -p luau0-sys
+            cargo upgrade luau0-src
+            cargo update -p luau0-src
             cargo check --locked
             ```
 
