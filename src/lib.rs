@@ -51,7 +51,7 @@ impl Default for LuaCompileOptions {
 }
 
 // todo: maybe change the result just Vec<u8> and panic when bytecode_ptr is null?
-/// 
+///
 /// Compiles Luau source code into bytecode.
 ///
 /// This function takes a Luau source string and optional compilation options,
@@ -61,14 +61,14 @@ impl Default for LuaCompileOptions {
 ///
 /// * `source` - A string slice containing the Luau source code to compile.
 /// * `options` - An `Option` containing a mutable reference to `LuaCompileOptions`.
-///               If `None`, default compilation options will be used.
+///
+/// If compile options is `None`, default compilation options will be used.
 ///
 /// # Returns
 ///
 /// A `Result` which is:
 /// - `Ok(Vec<u8>)` containing the compiled Luau bytecode if successful.
 /// - `Err(String)` containing an error message if compilation fails.
-
 pub fn compile_luau_to_bytecode(
     source: &str,
     options: Option<&mut LuaCompileOptions>,
