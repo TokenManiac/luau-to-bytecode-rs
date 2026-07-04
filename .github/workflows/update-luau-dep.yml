@@ -1,0 +1,59 @@
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * 0" # run every sunday, around the time luau updates, give or take a few days
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-luau0-src:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install cargo-edit
+        run: cargo install cargo-edit --locked
+
+      - name: Upgrade luau0-src manifest requirement
+        run: cargo upgrade -p luau0-src --incompatible=allow
+
+      - name: Update lockfile
+        run: cargo update --package luau0-src
+
+      - name: Check for changes
+        id: changes
+        shell: bash
+        run: |
+          if git diff --quiet -- Cargo.toml Cargo.lock; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No new releases."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Test
+        if: steps.changes.outputs.changed == 'true'
+        run: cargo test --locked
+
+      - name: Package check
+        if: steps.changes.outputs.changed == 'true'
+        run: cargo package --allow-dirty --locked
+
+      - name: Create pr
+        if: steps.changes.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v8
+        with:
+          branch: chore/update-luau0-src
+          delete-branch: true
+          title: "chore: update luau0-src"
+          commit-message: "chore: update luau0-src"
+          body: |
+            Updates `luau0-src` to the latest version.
+          labels: dependencies
