@@ -9,4 +9,4 @@ name = "luau_to_bytecode"
 path = "src/lib.rs"
 
 [build-dependencies]
-luau0-src = "0.20"
+luau0-src = "0"
