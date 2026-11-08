@@ -63,9 +63,9 @@ dependencies = [
 
 [[package]]
 name = "luau0-src"
-version = "0.22.0+luau740"
+version = "0.23.0+luau745"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4ea012e8a8aaff2f7b6c788fad41a60630003b6a0932bcf045f7d14952c9bd31"
+checksum = "44a77f4ce1adc38145ccd67a0e4b1928e642aedf906d1131d7f703e573c31162"
 dependencies = [
  "cc",
 ]
